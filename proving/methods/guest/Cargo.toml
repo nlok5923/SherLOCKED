@@ -4,8 +4,12 @@ version = "0.1.0"
 edition = "2021"
 
 [[bin]]
-name = "fibonacci"
-path = "src/bin/fibonacci.rs"
+name = "ERC20Sub"
+path = "src/bin/ERC20Sub.rs"
+
+[[bin]]
+name = "ERC20Add"
+path = "src/bin/ERC20Add.rs"
 
 [dependencies]
 ethabi = { version = "18.0", default-features = false }

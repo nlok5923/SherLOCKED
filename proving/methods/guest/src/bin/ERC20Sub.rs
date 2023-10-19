@@ -16,17 +16,15 @@
 
 use std::io::Read;
 
-use ethabi::{ethereum_types::U256, ParamType, Token};
+use ethabi::{ethereum_types::U256, ethereum_types::Address, ParamType, Token};
 use risc0_zkvm::guest::env;
+use tracing::info;
 
 risc0_zkvm::guest::entry!(main);
 
-fn fibonacci(n: U256) -> U256 {
-    let (mut prev, mut curr) = (U256::one(), U256::one());
-    for _ in 2..=n.as_u32() {
-        (prev, curr) = (curr, prev + curr);
-    }
-    curr
+fn ERC20Sub(user_previous_balance: U256, user_balance_spent: U256) -> U256 {
+    let ans: U256 = U256::from(10000);
+    ans
 }
 
 fn main() {
@@ -35,13 +33,15 @@ fn main() {
     env::stdin().read_to_end(&mut input_bytes).unwrap();
     // Type array passed to `ethabi::decode_whole` should match the types encoded in
     // the application contract.
-    let input = ethabi::decode_whole(&[ParamType::Uint(256)], &input_bytes).unwrap();
-    let n: U256 = input[0].clone().into_uint().unwrap();
-
+    let input = ethabi::decode_whole(&[ParamType::Address, ParamType::Uint(256), ParamType::Uint(256)], &input_bytes).unwrap();
+    let user_address: Address = input[0].clone().into_address().unwrap();
+    let user_previous_balance: U256 = input[1].clone().into_uint().unwrap();
+    let user_new_balance: U256 = input[2].clone().into_uint().unwrap();
+    
     // Run the computation.
-    let result = fibonacci(n);
+    let result = ERC20Sub(user_previous_balance, user_new_balance);
 
     // Commit the journal that will be received by the application contract.
     // Encoded types should match the args expected by the application callback.
-    env::commit_slice(&ethabi::encode(&[Token::Uint(n), Token::Uint(result)]));
+    env::commit_slice(&ethabi::encode(&[Token::Address(user_address), Token::Uint(result)]));
 }
