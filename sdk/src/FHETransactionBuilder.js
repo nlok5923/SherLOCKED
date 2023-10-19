@@ -1,4 +1,5 @@
 const ethers = require("ethers");
+const axios = require("axios");
 
 const eERC20_ABI = require("./constants/abi/eERC20.json");
 const eERC20_ADDRESS = "";
@@ -29,15 +30,21 @@ export class FHETransactionBuilder {
     const message = "FHE Transaction Builder for the win!";
     const signature = await signer.signMessage(message);
 
-    // TODO: call API to get decrypted balance
-    const decryptedBalance = 0;
+    // call network of nodes to get decrypted balance
+    const { decryptedBalance } = axios.post("/decrypt-balance", {
+      encryptedBalance,
+      signature,
+      address: this.address,
+    });
 
     return decryptedBalance;
   }
 
   async sendTransaction({ to, amount }) {
-    // TODO: call the API to get encrypted amount
-    const cipherAmount = "";
+    // call the network of nodes to get encrypted amount
+    const { encryptedAmount } = axios.post("/encrypt-amount", {
+      plainTextAmount: amount,
+    });
 
     const ethereum = window.ethereum;
     const provider = new ethers.providers.Web3Provider(ethereum);
@@ -51,7 +58,7 @@ export class FHETransactionBuilder {
     );
 
     // call the transfer function with to, cipherAmount
-    await eERC20Contract.transfer(to, cipherAmount);
+    await eERC20Contract.transfer(to, encryptedAmount);
 
     return true;
   }
