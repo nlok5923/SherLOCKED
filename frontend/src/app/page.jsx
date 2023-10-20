@@ -5,6 +5,8 @@ import DirectTransfer from "@/components/DirectTransfer";
 import IntentTransfer from "@/components/IntentTransfer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+const FLAG = true;
+
 export default function Home() {
   return (
     <main>
@@ -13,18 +15,23 @@ export default function Home() {
           <Balance />
 
           <Tabs
-            defaultValue="intent"
+            defaultValue="direct"
             className="w-[400px] border-2 border-purple-100 p-4"
           >
-            <TabsList>
-              <TabsTrigger value="direct">Direct</TabsTrigger>
-              <TabsTrigger value="intent">Intent</TabsTrigger>
-            </TabsList>
+            {FLAG && (
+              <>
+                <TabsList>
+                  <TabsTrigger value="direct">Direct</TabsTrigger>
+                  <TabsTrigger value="intent">Intent</TabsTrigger>
+                </TabsList>
+                <TabsContent value="intent">
+                  <IntentTransfer />
+                </TabsContent>
+              </>
+            )}
+
             <TabsContent value="direct">
               <DirectTransfer />
-            </TabsContent>
-            <TabsContent value="intent">
-              <IntentTransfer />
             </TabsContent>
           </Tabs>
         </div>
