@@ -1,7 +1,9 @@
 "use client";
 
-import { useEffect } from "react";
-import { useWallets } from "@web3-onboard/react";
+import { useEffect, useRef } from "react";
+import { useWallets, useConnectWallet } from "@web3-onboard/react";
+
+import { ethers } from "ethers";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -9,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { FHETransactionBuilder } from "sherlocked-sdk";
 
 const DirectTransfer = () => {
+  const [{ wallet }] = useConnectWallet();
   const connectedWallets = useWallets();
 
   const trxBuilder = useRef(null);
@@ -26,6 +29,14 @@ const DirectTransfer = () => {
   }, [connectedWallets]);
 
   const sendTransaction = async () => {
+    // create an ethers provider
+    let provider = new ethers.BrowserProvider(wallet.provider, "any");
+
+    if (!provider) {
+      alert("Please connect a wallet first.");
+      return;
+    }
+
     const to = toAddressRef.current.value;
     const amount = amountRef.current.value;
 
@@ -37,6 +48,7 @@ const DirectTransfer = () => {
     await trxBuilder.current?.sendTransaction({
       to,
       amount,
+      signer: await provider.getSigner(),
     });
   };
 

@@ -28,7 +28,7 @@ app.post("/decrypt-balance", (req, res) => {
     res.status(401).json({ message: "Invalid signature received" });
   }
 
-  // TODO: decrypt the balance
+  // decrypt the balance
   const encryptedAmount = BigInt(encryptedBalance);
 
   const amount = encryptedAmount - constant; 
@@ -45,7 +45,7 @@ app.post("/encrypt-amount", (req, res) => {
 
   const amount = parseInt(plainTextAmount);
   const tokenAmount = BigInt(String(7 ** amount));
-  // TODO: encrypt the amount
+  // encrypt the amount
   const encryptedAmount = String(tokenAmount + constant);
   res.json({ encryptedAmount });
 });

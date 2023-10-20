@@ -23,10 +23,10 @@
     "next": "13.5.4",
     "react": "^18",
     "react-dom": "^18",
+    "sherlocked-sdk": "../sdk",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animated": "^1.0.1",
-    "zustand": "^4.4.3",
-    "sherlocked-sdk": "../sdk"
+    "zustand": "^4.4.3"
   },
   "devDependencies": {
     "autoprefixer": "^10",

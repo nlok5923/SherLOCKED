@@ -1,4 +1,4 @@
-const ethers = require("ethers");
+const { ethers } = require("ethers");
 const axios = require("axios");
 
 const eERC20_ABI = require("./constants/abi/eERC20.json");
@@ -9,14 +9,11 @@ class FHETransactionBuilder {
     this.address = address;
   }
 
-  async getBalance() {
-    const ethereum = window.ethereum;
-    const provider = new ethers.providers.Web3Provider(ethereum);
-
+  async getBalance({ signer }) {
     const eERC20Contract = new ethers.Contract(
       eERC20_ADDRESS,
       eERC20_ABI,
-      provider
+      signer
     );
 
     // call balanceOf method to get encrypted balance of this.address
@@ -25,8 +22,6 @@ class FHETransactionBuilder {
     );
 
     // sign a message to prove owner of this.address
-    await provider.send("eth_requestAccounts", []);
-    const signer = provider.getSigner();
     const message = "FHE Transaction Builder for the win!";
     const signature = await signer.signMessage(message);
 
@@ -40,16 +35,11 @@ class FHETransactionBuilder {
     return decryptedBalance;
   }
 
-  async sendTransaction({ to, amount }) {
+  async sendTransaction({ to, amount, signer }) {
     // call the network of nodes to get encrypted amount
     const { encryptedAmount } = axios.post("/encrypt-amount", {
       plainTextAmount: amount,
     });
-
-    const ethereum = window.ethereum;
-    const provider = new ethers.providers.Web3Provider(ethereum);
-    await provider.send("eth_requestAccounts", []);
-    const signer = provider.getSigner();
 
     const eERC20Contract = new ethers.Contract(
       eERC20_ADDRESS,
