@@ -1,15 +1,14 @@
-// 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
-// import { HNSWLib } from "langchain/vectorstores/hnswlib";
-require('dotenv').config();
-const { OpenAI } = require("langchain/llms/openai");
-const { PromptTemplate } = require("langchain/prompts");
+import { OpenAI } from "langchain/llms/openai";
 
-const model = new OpenAI({modelName:"gpt-3.5-turbo-16k"});
+const model = new OpenAI({
+  modelName: "gpt-3.5-turbo-16k",
+  openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+});
 
-const getResponse = async (question = "",  statement = "") => {
-    if (!question) return null;
-  
-    const template = `
+const getLLMResponse = async ({ question = "", statement = "" }) => {
+  if (!question) return null;
+
+  const template = `
       Model Name: (Bot Created by Biomi)
   
       Description: Your goal is to answer the questions in most appropriate ways and as precise as possible
@@ -22,15 +21,14 @@ const getResponse = async (question = "",  statement = "") => {
       ----------------------------------------------------------------------------------------
       Question: ${question}
       `;
-  
-    try {
-      const res1 = await model.call(template);
-      console.log(res1);
-      return res1;
-    } catch (error) {
-      console.log({ error });
-      console.log(error.response);
-    }
-  }
 
-module.exports = { getResponse }
+  try {
+    const res1 = await model.call(template);
+    return res1;
+  } catch (error) {
+    console.log({ error });
+    console.log(error.response);
+  }
+};
+
+export default getLLMResponse;
