@@ -16,6 +16,7 @@
     "@web3-onboard/injected-wallets": "^2.10.7",
     "@web3-onboard/react": "^2.8.13",
     "@web3-onboard/transaction-preview": "^2.0.8",
+    "axios": "^1.5.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "encoding": "^0.1.13",

@@ -5,6 +5,7 @@ import { useWallets, useConnectWallet } from "@web3-onboard/react";
 import { Button } from "./ui/button";
 import { ethers } from "ethers";
 import { FHETransactionBuilder } from "sherlocked-sdk";
+import axios from 'axios'
 
 const Balance = () => {
   const trxBuilder = useRef(null);
@@ -14,6 +15,7 @@ const Balance = () => {
 
   const [isBalanceEncrypted, setIsBalanceEncrypted] = useState(true);
   const [balance, setBalance] = useState("Loading...");
+  const [encryptedBalance, setEncryptedBalance] = useState();
 
   useEffect(() => {
     (async () => {
@@ -34,8 +36,9 @@ const Balance = () => {
       );
       // const signer = await provider.getSigner();
       console.log(' this is provide ', provider)
-
-      setBalance(await trxBuilder.current.getEncryptedBalance({ provider }));
+      const epBalance = await trxBuilder.current.getEncryptedBalance({ provider });
+      setBalance(epBalance);
+      setEncryptedBalance(epBalance);
     })();
   }, [connectedWallets]);
 
@@ -59,13 +62,35 @@ const Balance = () => {
     );
   };
 
+  const balanceVisibility = () => {
+    if(isBalanceEncrypted) {
+      getDecryptedBalance();
+    } else {
+      getEncryptedBalanceFE();
+    }
+  }
+
+  const getEncryptedBalanceFE = async () => {
+    const api = axios.create({
+      baseURL: 'http://localhost:3001'
+    });
+
+    const resp = await api.post('/encrypt-amount', {
+      plainTextAmount: balance,
+    })
+
+    const { encryptedAmount } = resp.data;
+    setIsBalanceEncrypted(true);
+    setBalance(encryptedAmount);
+  }
+
   return (
     <div className="flex flex-col justify-center items-center border-2 gap-y-3 border-purple-100 p-4">
       <div className="flex gap-x-2 w-fit">
         <h2 className="w-fit">Balance:</h2>
         <p className="w-fit">{balance}</p>
       </div>
-      <Button className="w-fit" onClick={getDecryptedBalance}>
+      <Button className="w-fit" onClick={() => balanceVisibility()}>
         {isBalanceEncrypted ? "Decrypt" : "Hide"}
       </Button>
     </div>
