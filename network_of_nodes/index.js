@@ -4,17 +4,23 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
+const constant = BigInt("73786976294838206464");
+
 app.use(express.json())
 
 app.get("/", (req, res) => {
   res.send("This is the network of nodes");
 });
 
+const logBase7 = (x) => {
+  return Math.log(x) / Math.log(7);
+}
+
 app.post("/decrypt-balance", (req, res) => {
   const { encryptedBalance, signature, address } = req.body;
 
   // Verify the signature
-  const message = "FHE Transaction Builder for the win!";
+  const message = "Decrypt my balance";
   const derivedAddress = ethers.verifyMessage(message, signature);
   const isSignatureValid = derivedAddress === address;
 
@@ -23,7 +29,10 @@ app.post("/decrypt-balance", (req, res) => {
   }
 
   // TODO: decrypt the balance
-  const decryptedBalance = "";
+  const encryptedAmount = BigInt(encryptedBalance);
+
+  const amount = encryptedAmount - constant; 
+  const decryptedBalance = logBase7(Number(amount));
 
   res.json({ decryptedBalance });
 });
@@ -35,7 +44,6 @@ app.post("/encrypt-amount", (req, res) => {
   const { plainTextAmount } = req.body;
 
   const amount = parseInt(plainTextAmount);
-  const constant = BigInt("73786976294838206464");
   const tokenAmount = BigInt(String(7 ** amount));
   // TODO: encrypt the amount
   const encryptedAmount = String(tokenAmount + constant);
