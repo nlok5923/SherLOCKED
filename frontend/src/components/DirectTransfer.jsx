@@ -45,10 +45,13 @@ const DirectTransfer = () => {
       return;
     }
 
+    // console.log('this is signer ', (await provider.getSigner()))
+    const signer = await provider.getSigner();
+
     await trxBuilder.current?.sendTransaction({
       to,
       amount,
-      signer: await provider.getSigner(),
+      signer
     });
   };
 

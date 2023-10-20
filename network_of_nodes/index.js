@@ -1,12 +1,21 @@
 const ethers = require("ethers");
 const express = require("express");
+const cors = require('cors')
 
 const app = express();
 const port = 3001;
 
 const constant = BigInt("73786976294838206464");
+const corsOptions = {
+  origin:
+  "*",
+  credentials: true,
+  optionSuccessStatus: 200,
+};
+
 
 app.use(express.json())
+app.use(cors(corsOptions));
 
 app.get("/", (req, res) => {
   res.send("This is the network of nodes");
@@ -47,6 +56,7 @@ app.post("/encrypt-amount", (req, res) => {
   const tokenAmount = BigInt(String(7 ** amount));
   // encrypt the amount
   const encryptedAmount = String(tokenAmount + constant);
+  console.log(' this is ep amt ', encryptedAmount);
   res.json({ encryptedAmount });
 });
 

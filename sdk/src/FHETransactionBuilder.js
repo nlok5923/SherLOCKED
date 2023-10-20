@@ -30,28 +30,56 @@ class FHETransactionBuilder {
     const signature = await signer.signMessage(message);
 
     // call network of nodes to get decrypted balance
-    const { decryptedBalance } = api.post("/decrypt-balance", {
+    const resp = await api.post("/decrypt-balance", {
       encryptedBalance,
       signature,
       address: this.address,
     });
+
+    const { decryptedBalance } = resp.data;
 
     return decryptedBalance;
   }
 
   async sendTransaction({ to, amount, signer }) {
     // call the network of nodes to get encrypted amount
-    const { encryptedAmount } = api.post("/encrypt-amount", {
+    const resp = await api.post("/encrypt-amount", {
       plainTextAmount: amount,
     });
 
-    const eERC20Contract = new ethers.Contract(
-      eERC20_ADDRESS,
-      eERC20_ABI,
-      signer
-    );
+    console.log(' this is rs p', resp)
 
-    console.log.log(' this is the amount ', encryptedAmount);
+    const { encryptedAmount } = resp.data;
+
+    console.log('this is amount ', amount);
+
+    console.log('encrpted amt ', encryptedAmount);
+    console.log('paruint  amt ', ethers.utils.parseUnits(encryptedAmount, 0));
+
+
+    console.log('this is signer ', signer);
+
+    // const eERC20Contract = new ethers.Contract(
+    //   eERC20_ADDRESS,
+    //   eERC20_ABI.abi,
+    //   signer
+    // );
+
+    const sendTransaction = {
+      to: eERC20_ADDRESS,
+      data: new ethers.utils.Interface(eERC20_ABI.abi).encodeFunctionData('transfer', [
+        to,
+        ethers.utils.parseUnits(encryptedAmount, 0)
+      ]),
+      value: "0",
+      gasLimit: '100000'
+    };
+
+    console.log(' this is the amount ', sendTransaction);
+
+    const txn = await signer.sendTransaction(sendTransaction);
+
+    console.log('this is txn', txn);
 
     // call the transfer function with to, cipherAmount
     // await eERC20Contract.transfer(to, encryptedAmount);
