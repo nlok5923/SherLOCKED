@@ -2,7 +2,11 @@ const { ethers } = require("ethers");
 const axios = require("axios");
 
 const eERC20_ABI = require("./constants/abi/eERC20.json");
-const eERC20_ADDRESS = "";
+const eERC20_ADDRESS = "0x7cC82f365A448918Ea79e4DcA62ACeA24B0C3894";
+
+const api = axios.create({
+  baseURL: 'http://localhost:3001'
+})
 
 class FHETransactionBuilder {
   constructor(address) {
@@ -26,7 +30,7 @@ class FHETransactionBuilder {
     const signature = await signer.signMessage(message);
 
     // call network of nodes to get decrypted balance
-    const { decryptedBalance } = axios.post("/decrypt-balance", {
+    const { decryptedBalance } = api.post("/decrypt-balance", {
       encryptedBalance,
       signature,
       address: this.address,
@@ -37,7 +41,7 @@ class FHETransactionBuilder {
 
   async sendTransaction({ to, amount, signer }) {
     // call the network of nodes to get encrypted amount
-    const { encryptedAmount } = axios.post("/encrypt-amount", {
+    const { encryptedAmount } = api.post("/encrypt-amount", {
       plainTextAmount: amount,
     });
 
@@ -47,8 +51,10 @@ class FHETransactionBuilder {
       signer
     );
 
+    console.log.log(' this is the amount ', encryptedAmount);
+
     // call the transfer function with to, cipherAmount
-    await eERC20Contract.transfer(to, encryptedAmount);
+    // await eERC20Contract.transfer(to, encryptedAmount);
 
     return true;
   }
