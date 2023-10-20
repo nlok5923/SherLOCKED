@@ -4,6 +4,8 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
+app.use(express.json())
+
 app.get("/", (req, res) => {
   res.send("This is the network of nodes");
 });
@@ -27,11 +29,16 @@ app.post("/decrypt-balance", (req, res) => {
 });
 
 app.post("/encrypt-amount", (req, res) => {
+  console.log('request', req.body);
+  // console.log(req)
+
   const { plainTextAmount } = req.body;
 
+  const amount = parseInt(plainTextAmount);
+  const constant = BigInt("73786976294838206464");
+  const tokenAmount = BigInt(String(7 ** amount));
   // TODO: encrypt the amount
-  const encryptedAmount = "";
-
+  const encryptedAmount = String(tokenAmount + constant);
   res.json({ encryptedAmount });
 });
 
