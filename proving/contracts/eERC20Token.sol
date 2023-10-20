@@ -13,7 +13,7 @@ contract eERC20Token is ERC20, ERC20Permit {
         bytes32 erc20AddImageId_,
         bytes32 erc20SubImageId_
     ) ERC20("eERC20Token", "EE20", bonsaiRelay_, erc20AddImageId_, erc20SubImageId_) ERC20Permit("eERC20Token") {
-        _mint(msg.sender, 10000000 * 10 ** decimals());
+        // _mint(msg.sender, 10000000 * 10 ** decimals());
     }
 
     function mint(address to, uint256 amount) public {

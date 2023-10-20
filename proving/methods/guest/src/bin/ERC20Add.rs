@@ -22,9 +22,31 @@ use tracing::info;
 
 risc0_zkvm::guest::entry!(main);
 
+// fn ERC20Add(user_previous_balance: U256, user_new_balance: U256) -> U256 {
+//     let ans: U256 = user_previous_balance + user_new_balance + U256::from(1000000000000000000u128);
+//     ans
+// }
+
 fn ERC20Add(user_previous_balance: U256, user_new_balance: U256) -> U256 {
-    let ans: U256 = user_previous_balance + user_new_balance + U256::from(1000000000000000000u128);
-    ans
+
+    let constant = U256::from_dec_str("73786976294838206464").unwrap(); // 2^66
+
+    let mut normalized_prev_balance: U256;
+
+    if constant > user_previous_balance {
+        normalized_prev_balance = U256::from(1);
+    } else {
+        normalized_prev_balance = user_previous_balance - constant;
+    }
+
+    let normalized_new_balance = user_new_balance - constant;
+
+    // Multiply the two normalized values
+    let product = normalized_prev_balance.overflowing_mul(normalized_new_balance).0;
+
+    // Add 2 times the constant because of the property of the encryption function
+    let encrypted_sum = product + constant;
+    encrypted_sum
 }
 
 fn main() {

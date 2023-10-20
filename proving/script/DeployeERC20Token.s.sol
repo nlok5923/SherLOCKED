@@ -17,7 +17,7 @@ import {eERC20Token} from "../contracts/eERC20Token.sol";
 contract Deploy is Script, BonsaiCheats, BonsaiDeploy {
     function run() external {
         startBroadcast();
-        IBonsaiRelay bonsaiRelay = deployBonsaiRelay();
+        // IBonsaiRelay bonsaiRelay = deployBonsaiRelay();
         uploadImages();
         address initialOwner = 0x540F4E54Ed96a4b9A7c53A81069C17c8251Bf164;
 
@@ -28,8 +28,8 @@ contract Deploy is Script, BonsaiCheats, BonsaiDeploy {
         console2.log("Image ID for ERC20Add is ", vm.toString(imageIdForERC20Add));
         console2.log("Image ID for ERC20Sub is ", vm.toString(imageIdForERC20Sub));
 
-        eERC20Token app = new eERC20Token(initialOwner, bonsaiRelay, imageIdForERC20Add, imageIdForERC20Sub);
-        console2.log("Deployed eERC20Token contract to ", address(app));
+        // eERC20Token app = new eERC20Token(initialOwner, bonsaiRelay, imageIdForERC20Add, imageIdForERC20Sub);
+        // console2.log("Deployed eERC20Token contract to ", address(app));
 
         vm.stopBroadcast();
     }
