@@ -3,6 +3,8 @@ import { useRef, useState, useEffect } from "react";
 import { useWallets, useConnectWallet } from "@web3-onboard/react";
 
 import { Button } from "./ui/button";
+import { ethers } from "ethers";
+import { FHETransactionBuilder } from "sherlocked-sdk";
 
 const Balance = () => {
   const trxBuilder = useRef(null);
@@ -30,6 +32,9 @@ const Balance = () => {
       trxBuilder.current = new FHETransactionBuilder(
         connectedWallets[0].accounts[0].address
       );
+      // const signer = await provider.getSigner();
+      console.log(' this is provide ', provider)
+
       setBalance(await trxBuilder.current.getEncryptedBalance({ provider }));
     })();
   }, [connectedWallets]);

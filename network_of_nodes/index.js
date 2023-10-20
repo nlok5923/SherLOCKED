@@ -27,11 +27,16 @@ const logBase7 = (x) => {
 
 app.post("/decrypt-balance", (req, res) => {
   const { encryptedBalance, signature, address } = req.body;
+  console.log(' this is body ', req.body)
 
   // Verify the signature
-  const message = "Decrypt my balance";
+  const message = `I want to know my balance in decrypted form for the address ${address}`;
   const derivedAddress = ethers.verifyMessage(message, signature);
-  const isSignatureValid = derivedAddress === address;
+  console.log('verified address ', derivedAddress);
+
+  console.log('user address', address);
+
+  const isSignatureValid = String(derivedAddress).toLowerCase() === String(address).toLowerCase();
 
   if (!isSignatureValid) {
     res.status(401).json({ message: "Invalid signature received" });
