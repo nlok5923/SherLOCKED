@@ -19,6 +19,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "ethers": "^6.7.1",
+    "langchain": "^0.0.169",
     "lucide-react": "^0.287.0",
     "next": "13.5.4",
     "react": "^18",
