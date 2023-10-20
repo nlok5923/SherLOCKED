@@ -4,7 +4,7 @@ const axios = require("axios");
 const eERC20_ABI = require("./constants/abi/eERC20.json");
 const eERC20_ADDRESS = "";
 
-export class FHETransactionBuilder {
+class FHETransactionBuilder {
   constructor(address) {
     this.address = address;
   }
@@ -63,3 +63,5 @@ export class FHETransactionBuilder {
     return true;
   }
 }
+
+module.exports = FHETransactionBuilder;

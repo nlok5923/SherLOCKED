@@ -24,7 +24,8 @@ const NavMenu = () => {
 
         <NavigationMenuItem>
           <div className="flex gap-x-6 items-center text-[#702963]">
-            <button onClick={handleAboutClick}>About</button>
+            {/* TODO: Add balance info */}
+            <p>Balance</p>
             <ConnectWallet />
           </div>
         </NavigationMenuItem>
