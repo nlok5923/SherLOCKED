@@ -1,0 +1,4 @@
+{
+  "appService.defaultWebAppToDeploy": "/subscriptions/a9ae6809-0cd0-4416-b911-bdbc98570e79/resourceGroups/sherlocked/providers/Microsoft.Web/sites/sherlocked",
+  "appService.deploySubpath": "network_of_nodes"
+}
