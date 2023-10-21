@@ -5,7 +5,7 @@ import DirectTransfer from "@/components/DirectTransfer";
 import IntentTransfer from "@/components/IntentTransfer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const FLAG = true;
+const FLAG = false;
 
 export default function Home() {
   return (
