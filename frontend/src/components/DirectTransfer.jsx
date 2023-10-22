@@ -24,7 +24,8 @@ const DirectTransfer = () => {
     }
 
     trxBuilder.current = new FHETransactionBuilder(
-      connectedWallets[0].accounts[0].address
+      connectedWallets[0].accounts[0].address,
+      connectedWallets[0].chains[0].id
     );
   }, [connectedWallets]);
 

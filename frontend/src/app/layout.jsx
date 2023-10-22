@@ -28,6 +28,12 @@ const chains = [
     label: "Scroll Sepolia",
     rpcUrl: "https://sepolia-rpc.scroll.io",
   },
+  {
+    id: "0xAA36A7",
+    token: "SETH",
+    label: 'Sepolia',
+    rpcUrl: "https://api.zan.top/node/v1/eth/sepolia/public"
+  }
 ];
 
 const wallets = [injectedModule()];
