@@ -11,10 +11,22 @@ const inter = Inter({ subsets: ["latin"] });
 
 const chains = [
   {
-    id: "0xa869",
-    token: "AVAX",
-    label: "Avalanche Fuji Testnet",
-    rpcUrl: "https://api.avax-test.network/ext/bc/C/rpc",
+    id: "0x5A2",
+    token: "ETH",
+    label: "zkEVM Testnet",
+    rpcUrl: "https://rpc.public.zkevm-test.net",
+  },
+  {
+    id: "0x1389",
+    token: "MNT",
+    label: "Mantle Testnet",
+    rpcUrl: "https://rpc.testnet.mantle.xyz/",
+  },
+  {
+    id: "0x8274F",
+    token: "ETH",
+    label: "Scroll Sepolia",
+    rpcUrl: "https://sepolia-rpc.scroll.io",
   },
 ];
 

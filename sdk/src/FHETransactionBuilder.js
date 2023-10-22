@@ -4,7 +4,12 @@ const { Alchemy, Network } =  require("alchemy-sdk");
 require('dotenv').config();
 
 const eERC20_ABI = require("./constants/abi/eERC20.json");
-const eERC20_ADDRESS = "0x7cC82f365A448918Ea79e4DcA62ACeA24B0C3894";
+
+const ADDRESS = {
+  "0x8274F": "0x7cC82f365A448918Ea79e4DcA62ACeA24B0C3894",
+  "0x5a2": "0xFEd1642e18C6Ff92e52d6E55a58525cdd1785608",
+  "0x1389": "0x24D5Ab77888c20430EB92402096882A2C2203c44",
+};
 
 const api = axios.create({
   baseURL: "https://sherlocked.azurewebsites.net/",
@@ -12,13 +17,18 @@ const api = axios.create({
 });
 
 class FHETransactionBuilder {
-  constructor(address) {
+  /**
+   * FHETransactionBuilder constructor.
+   * @param {string} address - The address to use for the transaction.
+   * @param {string} chainId - The chain to use for the transaction in hex
+   */
+  constructor(address, chain) {
     this.address = address;
+    this.chainId = chain;
   }
 
   async getBalance() {
-
-    console.log('actual key', process.env.ALCHEMY_KEY);
+    console.log("actual key", process.env.ALCHEMY_KEY);
 
     const config = {
       apiKey: "5gjoTutV1hu9Jzhd2QgDJqS9hYOJuv7Q",
@@ -26,29 +36,30 @@ class FHETransactionBuilder {
     };
 
     const alchemy = new Alchemy(config);
-    
+
     //The below token contract address corresponds to USDT
-    const tokenContractAddresses = [eERC20_ADDRESS];
-    
+    const tokenContractAddresses = [ADDRESS[this.chainId]];
+
     const data = await alchemy.core.getTokenBalances(
       this.address,
       tokenContractAddresses
     );
-    console.log(' output data ', data);
+    console.log(" output data ", data);
 
-    const balanceInBigNumber = ethers.BigNumber.from(data.tokenBalances[0].tokenBalance);
+    const balanceInBigNumber = ethers.BigNumber.from(
+      data.tokenBalances[0].tokenBalance
+    );
 
     return balanceInBigNumber.toString();
   }
 
   async getEncryptedBalance({ provider }) {
-
     const balance = await this.getBalance();
 
     return balance;
     // call balanceOf method to get encrypted balance of this.address
     // const sendTransaction = {
-    //   to: eERC20_ADDRESS,
+    //   to: ADDRESS[this.chainId],
     //   data: new ethers.utils.Interface(eERC20_ABI.abi).encodeFunctionData(
     //     "balanceOf",
     //     [this.address]
@@ -56,23 +67,23 @@ class FHETransactionBuilder {
     //   value: "0",
     //   gasLimit: "100000",
     // };
-// console.log(' provider in sdk ', provider)
-//     // console.log(" this is the amount ", sendTransaction);
-//     const erc20Contract = new ethers.Contract(
-//       eERC20_ADDRESS,
-//       eERC20_ABI.abi,
-//       provider
-//     );
+    // console.log(' provider in sdk ', provider)
+    //     // console.log(" this is the amount ", sendTransaction);
+    //     const erc20Contract = new ethers.Contract(
+    //       ADDRESS[this.chainId],
+    //       eERC20_ABI.abi,
+    //       provider
+    //     );
 
-//     const balance = await erc20Contract.balanceOf(eERC20_ADDRESS);
-//     console.log(' this is balance ', balance);
+    //     const balance = await erc20Contract.balanceOf(ADDRESS[this.chainId]);
+    //     console.log(' this is balance ', balance);
 
-//     // call the transfer function with to, cipherAmount
-//     // const txn = await provider.sendTransaction(sendTransaction);
+    //     // call the transfer function with to, cipherAmount
+    //     // const txn = await provider.sendTransaction(sendTransaction);
 
-//     // console.log("this is txn", txn);
+    //     // console.log("this is txn", txn);
 
-//     const encryptedBalance = 34234;
+    //     const encryptedBalance = 34234;
     // parseInt(txn.data);
 
     // return encryptedBalance;
@@ -82,7 +93,7 @@ class FHETransactionBuilder {
     const encryptedBalance = await this.getEncryptedBalance({
       provider: signer,
     });
-    
+
     // sign a message to prove owner of this.address
     const message = `I want to know my balance in decrypted form for the address ${this.address}`;
     const signature = await signer.signMessage(message);
@@ -117,7 +128,7 @@ class FHETransactionBuilder {
     console.log("this is signer ", signer);
 
     const sendTransaction = {
-      to: eERC20_ADDRESS,
+      to: ADDRESS[this.chainId],
       data: new ethers.utils.Interface(eERC20_ABI.abi).encodeFunctionData(
         "transfer",
         [to, ethers.utils.parseUnits(encryptedAmount, 0)]

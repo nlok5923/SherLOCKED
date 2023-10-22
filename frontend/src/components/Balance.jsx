@@ -31,8 +31,11 @@ const Balance = () => {
         return;
       }
 
+      console.log("connectedWallets", connectedWallets);
+
       trxBuilder.current = new FHETransactionBuilder(
-        connectedWallets[0].accounts[0].address
+        connectedWallets[0].accounts[0].address,
+        connectedWallets[0].chains[0].id
       );
       // const signer = await provider.getSigner();
       console.log(' this is provide ', provider)
