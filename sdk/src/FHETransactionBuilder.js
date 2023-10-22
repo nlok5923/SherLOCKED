@@ -7,7 +7,8 @@ const eERC20_ABI = require("./constants/abi/eERC20.json");
 const eERC20_ADDRESS = "0x7cC82f365A448918Ea79e4DcA62ACeA24B0C3894";
 
 const api = axios.create({
-  baseURL: "https://sherlocked.azurewebsites.net/",
+  baseURL: "http://localhost:3001"
+  // "https://sherlocked.azurewebsites.net/",
 });
 
 class FHETransactionBuilder {

@@ -1,0 +1,18 @@
+{
+    "scroll sepolia": {
+      "RiscZeroGroth16Verifier": "0x57D8C4870EDa80eD667d27f124226581B9822267",
+      "BonsaiRelay": "0xd80da0b12a1487CadedE8F07e9B144f82D64230e",
+      "eERC20Token": "0xFEd1642e18C6Ff92e52d6E55a58525cdd1785608"
+    },
+    "mantle testnet": {
+      "RiscZeroGroth16Verifier": "0xd80da0b12a1487CadedE8F07e9B144f82D64230e",
+      "BonsaiRelay": "0xFEd1642e18C6Ff92e52d6E55a58525cdd1785608",
+      "eERC20Token": "0x24D5Ab77888c20430EB92402096882A2C2203c44"
+    },
+    "zkevm testnet": {
+      "RiscZeroGroth16Verifier": "0x57D8C4870EDa80eD667d27f124226581B9822267",
+      "BonsaiRelay": "0xd80da0b12a1487CadedE8F07e9B144f82D64230e",
+      "eERC20Token": "0xFEd1642e18C6Ff92e52d6E55a58525cdd1785608"
+    }
+  }
+  
