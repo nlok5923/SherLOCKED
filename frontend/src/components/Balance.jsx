@@ -72,8 +72,8 @@ const Balance = () => {
 
   const getEncryptedBalanceFE = async () => {
     const api = axios.create({
-      // baseURL: 'https://sherlocked.azurewebsites.net/'
-      baseURL: "http://localhost:3000",
+      baseURL: 'https://sherlocked.azurewebsites.net/'
+      // baseURL: "http://localhost:3000",
     });
 
     const resp = await api.post('/encrypt-amount', {
