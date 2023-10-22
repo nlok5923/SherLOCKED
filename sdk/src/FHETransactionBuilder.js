@@ -70,10 +70,13 @@ class FHETransactionBuilder {
 
       return balanceInBigNumber.toString();
     } else {
-      // const covalentKey = 'ckey_92f7a815779a4451a77bb98f392';
-      // const client = new CovalentClient(covalentKey);
-      // const resp = await client.BalanceService.getTokenBalancesForWalletAddress(chainIdToChainName[this.chainId],this.address);
-      return "73786976294838206471" // returning this as balance for now which is equivalent to 1 token
+      const covalentKey = 'ckey_92f7a815779a4451a77bb98f392';
+      const client = new CovalentClient(covalentKey);
+      const resp = await client.BalanceService.getTokenBalancesForWalletAddress(chainIdToChainName[this.chainId],this.address);
+      const contractAddress = ADDRESS[this.chainId];
+      const balances = resp.items.filter(data => data.contract_address.toLowerCase() === contractAddress);
+      return balances[0].balance;
+      // return "73786976294838206471" // returning this as balance for now which is equivalent to 1 token
     }
   }
 
