@@ -77,7 +77,7 @@ const DirectTransfer = () => {
         Send
       </Button>
       <p className="text-sm text-slate-400 pb-4 text-center">
-        PS: to test live demo please contact me @NitanshuL on X.com as i couldn't host the zkVM on cloud due to heavy computation requirement
+        {"PS: to test live demo please contact me @NitanshuL on X.com as i couldn't host the zkVM on cloud due to heavy computation requirement"}
       </p>
     </div>
   );
