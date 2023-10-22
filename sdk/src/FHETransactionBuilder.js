@@ -1,14 +1,21 @@
 const { ethers } = require("ethers");
 const axios = require("axios");
-const { Alchemy, Network } =  require("alchemy-sdk");
-require('dotenv').config();
+const { Alchemy, Network } = require("alchemy-sdk");
+require("dotenv").config();
+const { CovalentClient } = require("@covalenthq/client-sdk");
 
 const eERC20_ABI = require("./constants/abi/eERC20.json");
 
 const ADDRESS = {
-  "0x8274F": "0x7cC82f365A448918Ea79e4DcA62ACeA24B0C3894",
-  "0x5a2": "0xFEd1642e18C6Ff92e52d6E55a58525cdd1785608",
+  "0x8274F": "0xFEd1642e18C6Ff92e52d6E55a58525cdd1785608", // scroll sepolia
+  "0x5a2": "0xFEd1642e18C6Ff92e52d6E55a58525cdd1785608", // 1442 zkevm testnet
   "0x1389": "0x24D5Ab77888c20430EB92402096882A2C2203c44",
+  "0xAA36A7": "0x7cC82f365A448918Ea79e4DcA62ACeA24B0C3894", // sepolia 11155111
+};
+
+const chainIdToChainName = {
+  "0x8274F": "scroll-sepolia-testnet",
+  "0x1389": "mantle-testnet",
 };
 
 const api = axios.create({
@@ -30,27 +37,44 @@ class FHETransactionBuilder {
   async getBalance() {
     console.log("actual key", process.env.ALCHEMY_KEY);
 
-    const config = {
-      apiKey: "5gjoTutV1hu9Jzhd2QgDJqS9hYOJuv7Q",
-      network: Network.ETH_SEPOLIA,
-    };
+    let config;
+    if (this.chainId === "0x5a2" || this.chainId === "0xAA36A7") {
+      if (this.chainId === "0x5a2") {
+        config = {
+          apiKey: "rr0lriuMLr2BSPy-2FMXFGJuo7Jffoze",
+          network: Network.POLYGONZKEVM_TESTNET,
+        };
 
-    const alchemy = new Alchemy(config);
+        if (this.chainId === "0xAA36A7") {
+          config = {
+            apiKey: "5gjoTutV1hu9Jzhd2QgDJqS9hYOJuv7Q",
+            network: Network.ETH_SEPOLIA,
+          };
+        }
+      }
 
-    //The below token contract address corresponds to USDT
-    const tokenContractAddresses = [ADDRESS[this.chainId]];
+      const alchemy = new Alchemy(config);
 
-    const data = await alchemy.core.getTokenBalances(
-      this.address,
-      tokenContractAddresses
-    );
-    console.log(" output data ", data);
+      //The below token contract address corresponds to USDT
+      const tokenContractAddresses = [ADDRESS[this.chainId]];
 
-    const balanceInBigNumber = ethers.BigNumber.from(
-      data.tokenBalances[0].tokenBalance
-    );
+      const data = await alchemy.core.getTokenBalances(
+        this.address,
+        tokenContractAddresses
+      );
+      console.log(" output data ", data);
 
-    return balanceInBigNumber.toString();
+      const balanceInBigNumber = ethers.BigNumber.from(
+        data.tokenBalances[0].tokenBalance
+      );
+
+      return balanceInBigNumber.toString();
+    } else {
+      // const covalentKey = 'ckey_92f7a815779a4451a77bb98f392';
+      // const client = new CovalentClient(covalentKey);
+      // const resp = await client.BalanceService.getTokenBalancesForWalletAddress(chainIdToChainName[this.chainId],this.address);
+      return "73786976294838206471" // returning this as balance for now which is equivalent to 1 token
+    }
   }
 
   async getEncryptedBalance({ provider }) {
