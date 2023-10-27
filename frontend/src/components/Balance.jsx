@@ -93,9 +93,11 @@ const Balance = () => {
 
   return (
     <div className="flex flex-col justify-center items-center border-2 gap-y-3 border-purple-100 p-4">
-      <div className="flex gap-x-2 w-fit">
+      <div className="flex gap-x-2 w-fit items-center mb-2">
         <h2 className="w-fit">Balance:</h2>
-        <p className="w-fit">{balance}</p>
+        <p className="w-fit text-[#702963] font-black drop-shadow-lg bg-purple-100 py-1 px-3 rounded">
+          {balance}
+        </p>
       </div>
       <Button className="w-fit" onClick={() => balanceVisibility()}>
         {isBalanceEncrypted ? "Decrypt" : "Hide"}
