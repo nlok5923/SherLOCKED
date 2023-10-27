@@ -16,6 +16,7 @@ const Balance = () => {
   const [isBalanceEncrypted, setIsBalanceEncrypted] = useState(true);
   const [balance, setBalance] = useState("Loading...");
   const [encryptedBalance, setEncryptedBalance] = useState();
+  const rpcUrl = 'http://localhost:8545';
 
   useEffect(() => {
     (async () => {
@@ -25,6 +26,7 @@ const Balance = () => {
 
       // create an ethers provider
       let provider = new ethers.BrowserProvider(wallet.provider, "any");
+      // let provider = new ethers.JsonRpcProvider(rpcUrl);
 
       if (!provider) {
         alert("Please connect a wallet first.");
@@ -51,6 +53,7 @@ const Balance = () => {
     }
 
     let provider = new ethers.BrowserProvider(wallet.provider, "any");
+    // let provider = new ethers.JsonRpcProvider(rpcUrl);
 
     if (!provider) {
       alert("Please connect a wallet first.");

@@ -33,6 +33,12 @@ const chains = [
     token: "SETH",
     label: 'Sepolia',
     rpcUrl: "https://api.zan.top/node/v1/eth/sepolia/public"
+  },
+  {
+    id: "0x7A69",
+    token: "eth",
+    label: "localnode",
+    rpcUrl: "http://localhost:8545"
   }
 ];
 
