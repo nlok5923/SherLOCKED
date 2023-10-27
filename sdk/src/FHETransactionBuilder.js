@@ -14,6 +14,8 @@ const ADDRESS = {
   "0x7A69": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512" // erc20 locally deployed
 };
 
+const tokenContractAddresses = '0x5FC8d32690cc91D4c39d9d3abcBD16989F875707';
+
 const chainIdToChainName = {
   "0x8274F": "scroll-sepolia-testnet",
   "0x1389": "mantle-testnet",
@@ -57,7 +59,7 @@ class FHETransactionBuilder {
     //   const alchemy = new Alchemy(config);
 
     //   //The below token contract address corresponds to USDT
-      const tokenContractAddresses = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+      // const tokenContractAddresses = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
       //  [ADDRESS[this.chainId]];
       console.log(' token address', tokenContractAddresses);
 
@@ -175,7 +177,7 @@ class FHETransactionBuilder {
     console.log("this is signer ", signer);
     // ADDRESS[this.chainId]
     const sendTransaction = {
-      to:  "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      to:  tokenContractAddresses,
       data: new ethers.utils.Interface(eERC20_ABI.abi).encodeFunctionData(
         "transfer",
         [to, ethers.utils.parseUnits(encryptedAmount, 0)]
