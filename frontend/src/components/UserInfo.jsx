@@ -9,10 +9,10 @@ const UserInfo = () => {
   const userName = useMemo(() => {
     if (wallet?.accounts && wallet.accounts[0]?.address) {
       const address = wallet.accounts[0].address;
-      if (address === "0x70997970C51812dc3A010C7d01b50e0d17dc79C8") {
+      if (address.toLowerCase() === "0x70997970C51812dc3A010C7d01b50e0d17dc79C8".toLowerCase()) {
         return "Bob";
       }
-      if (address === "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266") {
+      if (address.toLowerCase() === "0xa0Ee7A142d267C1f36714E4a8F75612F20a79720".toLowerCase()) {
         return "Alice";
       }
     }
