@@ -3,6 +3,7 @@
 import Balance from "@/components/Balance";
 import DirectTransfer from "@/components/DirectTransfer";
 import IntentTransfer from "@/components/IntentTransfer";
+import UserInfo from "@/components/UserInfo";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const FLAG = false;
@@ -12,6 +13,8 @@ export default function Home() {
     <main>
       <div className="flex justify-center items-center h-[70vh]">
         <div className="flex flex-col gap-y-5 animate-fade animate-once animate-duration-1200 animate-delay-300 animate-ease-in-out">
+          <UserInfo />
+
           <Balance />
 
           <Tabs
