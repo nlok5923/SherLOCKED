@@ -1,4 +1,8 @@
 # sherLOCKED
+
+![image](https://github.com/nlok5923/SherLOCKED/assets/56120084/e6c94566-1bb0-4db5-b08a-a6b9b580679c)
+
+
 > FHE based privacy enabling solution for EVM (ZK + FHE + MPC)
 
 ## Problem
